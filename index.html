@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control de Calidad | PNC</title>
+  <meta name="description" content="Dashboard de Control de Calidad: análisis de Producto No Conforme (PNC) y devoluciones de SYSPRO RMA.">
+  <meta name="theme-color" content="#073d80">
+  <link rel="icon" type="image/png" href="LOGO/favicon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Plastiempaques, inicio">
+        <img src="LOGO/logo-plasti.png" alt="Logo de Plastiempaques">
+      </a>
+
+      <nav class="navigation" aria-label="Navegación principal">
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
+          <span>Inicio</span>
+        </a>
+        <a class="nav-link active" href="#" aria-current="page">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+          <span>Consultas PNC</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9h16M9 5V3h6v2m-6 8h6"/></svg>
+          <span>Productos</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+          <span>Causas</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.4 1.1-1.5 2.6-1.7-.7a8 8 0 0 1-1.6.9l-.3 1.8h-3l-.3-1.8a8 8 0 0 1-1.6-.9l-1.7.7-1.5-2.6 1.4-1.1a8 8 0 0 1 0-1.9l-1.4-1.1 1.5-2.6 1.7.7a8 8 0 0 1 1.6-.9l.3-1.8h3l.3 1.8a8 8 0 0 1 1.6.9l1.7-.7 1.5 2.6-1.4 1.1a8 8 0 0 1 0 1.8z"/></svg>
+          <span>Procesos</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1zm12-12a3 3 0 1 1 0 6m2 2a5 5 0 0 1 4 5"/></svg>
+          <span>Clientes</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 6-6 4 3 7-8"/><path d="M15 6h5v5M3 21l6-6 4 3 7-8"/></svg>
+          <span>Tendencias</span>
+        </a>
+
+        <button class="nav-heading nav-heading-spaced section-toggle" id="mastersToggle" type="button" aria-expanded="true" aria-controls="mastersMenu">
+          <span>MAESTROS</span>
+          <svg class="nav-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 10 4-4 4 4"/></svg>
+        </button>
+        <div class="submenu" id="mastersMenu">
+          <a class="nav-link" href="#">
+            <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9h16M4 15h16M9 4v16m6-16v16"/></svg>
+            <span>Maestro PNC</span>
+          </a>
+          <a class="nav-link" href="#">
+            <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11"/><path d="M4 3v4m-2-2h4m-2 5v4m-2-2h4m-2 5v4m-2-2h4"/></svg>
+            <span>Categorías</span>
+          </a>
+          <a class="nav-link" href="#">
+            <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7m-7 4h7"/><circle cx="4" cy="12" r="1"/></svg>
+            <span>DEV / Origen</span>
+          </a>
+          <a class="nav-link" href="#">
+            <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9h16M4 15h16m-9-11v16m5-16v16"/></svg>
+            <span>Equivalencias RMA</span>
+          </a>
+        </div>
+
+        <a class="nav-link nav-link-spaced" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 3v5c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span>Administración</span>
+        </a>
+        <a class="nav-link" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
+          <span>Accesos</span>
+        </a>
+      </nav>
+
+    </aside>
+
+    <main class="content">
+      <header class="dashboard-header">
+        <div class="dashboard-title">
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ocultar menú" aria-expanded="true" aria-controls="sidebar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div>
+            <h1>Control de Calidad | PNC</h1>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <label class="header-field">Planta
+            <select id="filter-plant-header" aria-label="Planta">
+              <option value=""></option>
+            </select>
+          </label>
+          <div class="user-summary">
+            <span class="user-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            </span>
+            <span><strong>Usuario</strong><small>Calidad</small></span>
+            <span class="user-chevron" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4"/></svg></span>
+          </div>
+          <div class="header-update">
+            <span>Última actualización: —</span>
+            <button id="btn-refresh" class="button button-secondary" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 11.9-3"/></svg>
+              Actualizar
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        <section class="panel filters-panel" aria-labelledby="filters-title">
+          <div class="panel-heading">
+            <h2 id="filters-title">
+              <svg class="filters-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg>
+              Filtros de análisis
+            </h2>
+          </div>
+
+          <form class="filter-grid" id="filters-form">
+            <label class="filter-field filter-year">Año
+              <select id="filter-year" aria-label="Año"><option value=""></option></select>
+            </label>
+            <label class="filter-field filter-month">Mes
+              <select id="filter-month" aria-label="Mes"><option value=""></option></select>
+            </label>
+            <label class="filter-field filter-week">Semana
+              <select id="filter-week" aria-label="Semana"><option value=""></option></select>
+            </label>
+            <label class="filter-field filter-date">Fecha
+              <input id="filter-date-range" type="text" placeholder="dd/mm/aaaa - dd/mm/aaaa" aria-label="Rango de fechas">
+            </label>
+            <label class="filter-field filter-workcentre">Centro de trabajo
+              <select id="filter-workcentre" aria-label="WorkCentre"><option value=""></option></select>
+            </label>
+            <label class="filter-field filter-cost">Centro de costo
+              <select id="filter-cost-center" aria-label="Centro de costo"><option value=""></option></select>
+            </label>
+            <label class="filter-field filter-client">Cliente
+              <select id="filter-client" aria-label="Cliente"><option value=""></option></select>
+            </label>
+            <label class="filter-field filter-product">Producto
+              <select id="filter-product" aria-label="Producto"><option value=""></option></select>
+            </label>
+            <label class="filter-field filter-category">Categoría
+              <select id="filter-category" aria-label="Categoría"><option value=""></option></select>
+            </label>
+            <label class="filter-field filter-origin">DEV / Origen
+              <select id="filter-origin" aria-label="DEV / Origen"><option value=""></option></select>
+            </label>
+
+            <div class="active-filters" aria-label="Filtros activos">
+              <span class="active-filters-label">Filtros activos:</span>
+              <div class="active-filter-list"></div>
+            </div>
+
+            <div class="filter-actions">
+              <button id="btn-search" class="button button-primary" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+                Buscar
+              </button>
+              <button id="btn-clear" class="button button-secondary" type="reset">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16m-14 0 1 14h10l1-14M9 7V4h6v3m-5 4v6m4-6v6"/></svg>
+                Limpiar
+              </button>
+              <button id="btn-export" class="button button-secondary" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>
+                Exportar
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- MAQUETA - Datos de ejemplo: el JS reemplaza estos valores y los de los gráficos -->
+        <section class="metrics-grid" aria-label="Indicadores de calidad">
+          <article class="metric-card">
+            <span class="metric-icon blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9h4v10m4 0V4h4v15m4 0v-7h4v7M2 21h20"/></svg></span>
+            <div><h2>Producción Tot.</h2><p class="metric-value" id="metric-total-production">1,084,746</p><p class="metric-note">vs. período anterior</p></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon red" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 10 18H2z"/><path d="M12 9v5m0 3h.01"/></svg></span>
+            <div><h2>Kg PNC</h2><p class="metric-value" id="metric-kg-pnc">791</p><p class="metric-note">vs. período anterior</p></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon cyan" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span>
+            <div><h2>% PNC</h2><p class="metric-value" id="metric-pct-pnc">0.07 %</p><p class="metric-note">vs. período anterior</p></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7H3V3m0 4 5-5a9 9 0 0 1 14 5M17 17h4v4m0-4-5 5A9 9 0 0 1 2 15"/></svg></span>
+            <div><h2>Kg PNC Rec</h2><p class="metric-value" id="metric-kg-pnc-recovered">727</p><p class="metric-note">vs. período anterior</p></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16l-1 14H5zM3 4h18M9 11v6m6-6v6"/></svg></span>
+            <div><h2>Kg PNC NR</h2><p class="metric-value" id="metric-kg-pnc-not-recovered">64</p><p class="metric-note">vs. período anterior</p></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon cyan" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M14 3.2V10h6.8A9 9 0 0 0 14 3.2z"/></svg></span>
+            <div><h2>% PNC NR</h2><p class="metric-value" id="metric-pct-pnc-not-recovered">0.0059 %</p><p class="metric-note">vs. período anterior</p></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon red" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 10 18H2z"/><path d="M12 9v5m0 3h.01"/></svg></span>
+            <div><h2>Casos recurrentes</h2><p class="metric-value" id="metric-recurring-cases">76</p><p class="metric-note">vs. período anterior</p></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon green" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 4C11 4 5 7 5 13a6 6 0 0 0 6 6c6 0 9-6 9-15z"/><path d="M3 22c2-6 6-10 12-13"/></svg></span>
+            <div><h2>% Recuperación</h2><p class="metric-value" id="metric-recovery-pct">91.9 %</p><p class="metric-note">vs. período anterior</p></div>
+          </article>
+        </section>
+
+        <!-- MAQUETA - Gráficos con datos de ejemplo: el JS los reemplaza con datos reales -->
+        <section class="analytics" aria-label="Análisis gráfico">
+          <div class="analytics-toolbar">
+            <span class="analytics-tab">Resumen</span>
+            <div class="period-control" aria-label="Período mostrado">
+              <span>Vista:</span>
+              <button class="period-button active" type="button" aria-pressed="true">Mensual</button>
+              <button class="period-button" type="button" aria-pressed="false">Semanal</button>
+              <button class="period-button" type="button" aria-pressed="false">Diaria</button>
+            </div>
+          </div>
+
+          <div class="charts-grid">
+            <article class="panel chart-panel" id="trend-chart">
+              <div class="chart-heading">
+                <h2>Tendencia de PNC</h2>
+                <button class="chart-expand" type="button" aria-label="Ampliar Tendencia de PNC" title="Ampliar gráfico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></button>
+              </div>
+              <div class="trend-chart">
+                <div class="trend-plot">
+                  <svg viewBox="0 0 360 190" role="img" aria-label="Gráfico mensual de kilogramos y porcentaje de PNC">
+                    <g class="chart-grid-lines">
+                      <line x1="42" y1="20" x2="330" y2="20"/>
+                      <line x1="42" y1="52" x2="330" y2="52"/>
+                      <line x1="42" y1="84" x2="330" y2="84"/>
+                      <line x1="42" y1="116" x2="330" y2="116"/>
+                      <line x1="42" y1="148" x2="330" y2="148"/>
+                    </g>
+                    <g class="chart-axis-labels">
+                      <text x="34" y="151" text-anchor="end">0</text>
+                      <text x="34" y="119" text-anchor="end">50</text>
+                      <text x="34" y="87" text-anchor="end">100</text>
+                      <text x="34" y="55" text-anchor="end">150</text>
+                      <text x="34" y="23" text-anchor="end">200</text>
+                      <text x="336" y="151">0.00%</text>
+                      <text x="336" y="108">0.10%</text>
+                      <text x="336" y="66">0.20%</text>
+                      <text x="336" y="23">0.30%</text>
+                      <text class="axis-title" transform="translate(11 104) rotate(-90)">Kg PNC</text>
+                    </g>
+                    <g class="trend-bars">
+                      <rect x="49" y="110" width="14" height="38"/><rect x="72" y="95" width="14" height="53"/>
+                      <rect x="95" y="101" width="14" height="47"/><rect x="118" y="87" width="14" height="61"/>
+                      <rect x="141" y="70" width="14" height="78"/><rect x="164" y="58" width="14" height="90"/>
+                      <rect x="187" y="76" width="14" height="72"/><rect x="210" y="73" width="14" height="75"/>
+                      <rect x="233" y="67" width="14" height="81"/><rect x="256" y="81" width="14" height="67"/>
+                      <rect x="279" y="97" width="14" height="51"/><rect x="302" y="111" width="14" height="37"/>
+                    </g>
+                    <polyline class="trend-line" points="56,100 79,83 102,92 125,82 148,62 171,48 194,62 217,63 240,57 263,69 286,83 309,94"/>
+                    <g class="trend-points">
+                      <circle cx="56" cy="100" r="3"/><circle cx="79" cy="83" r="3"/><circle cx="102" cy="92" r="3"/>
+                      <circle cx="125" cy="82" r="3"/><circle cx="148" cy="62" r="3"/><circle cx="171" cy="48" r="3"/>
+                      <circle cx="194" cy="62" r="3"/><circle cx="217" cy="63" r="3"/><circle cx="240" cy="57" r="3"/>
+                      <circle cx="263" cy="69" r="3"/><circle cx="286" cy="83" r="3"/><circle cx="309" cy="94" r="3"/>
+                    </g>
+                    <g class="chart-axis-labels month-labels">
+                      <text x="56" y="166">Ene</text><text x="79" y="166">Feb</text><text x="102" y="166">Mar</text>
+                      <text x="125" y="166">Abr</text><text x="148" y="166">May</text><text x="171" y="166">Jun</text>
+                      <text x="194" y="166">Jul</text><text x="217" y="166">Ago</text><text x="240" y="166">Sep</text>
+                      <text x="263" y="166">Oct</text><text x="286" y="166">Nov</text><text x="309" y="166">Dic</text>
+                    </g>
+                  </svg>
+                  <div class="trend-pct">
+                    <span style="left:15.56%;top:52.63%">0.11<small>%</small></span>
+                    <span style="left:21.94%;top:43.68%">0.15<small>%</small></span>
+                    <span style="left:28.33%;top:48.42%">0.13<small>%</small></span>
+                    <span style="left:34.72%;top:43.16%">0.15<small>%</small></span>
+                    <span style="left:41.11%;top:32.63%">0.20<small>%</small></span>
+                    <span style="left:47.5%;top:25.26%">0.23<small>%</small></span>
+                    <span style="left:53.89%;top:32.63%">0.20<small>%</small></span>
+                    <span style="left:60.28%;top:33.16%">0.20<small>%</small></span>
+                    <span style="left:66.67%;top:30.0%">0.21<small>%</small></span>
+                    <span style="left:73.06%;top:36.32%">0.19<small>%</small></span>
+                    <span style="left:79.44%;top:43.68%">0.15<small>%</small></span>
+                    <span style="left:85.83%;top:49.47%">0.13<small>%</small></span>
+                  </div>
+                </div>
+                <div class="chart-legend">
+                  <span><i class="legend-line"></i>Kg PNC</span>
+                  <span><i class="legend-dashed"></i>% PNC</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel chart-panel" id="category-chart">
+              <div class="chart-heading">
+                <h2>PNC por catastrofe</h2>
+                <button class="chart-expand" type="button" aria-label="Ampliar PNC por catastrofe" title="Ampliar gráfico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></button>
+              </div>
+              <div class="category-chart" role="img" aria-label="PNC por catastrofe en kilogramos y porcentaje: Falla de especificaciones 320 kg (24.9 %), Falla Operativa 280 kg (21.8 %), Falla Impresión 180 kg (14 %), Falla de Sello 125 kg (9.7 %), Falla de Laminación 110 kg (8.6 %), Falla de tratamiento 95 kg (7.4 %), Bloqueo 85 kg (6.6 %), Falla perforador 60 kg (4.7 %) y Otros 29 kg (2.3 %)">
+                <div class="category-row"><span class="category-name">Falla de especificaciones</span><span class="category-track" style="--bar-width:100%"><i></i><small>24.9%</small></span><span class="category-value"><b>320</b> kg</span></div>
+                <div class="category-row"><span class="category-name">Falla Operativa</span><span class="category-track" style="--bar-width:87.5%"><i></i><small>21.8%</small></span><span class="category-value"><b>280</b> kg</span></div>
+                <div class="category-row"><span class="category-name">Falla Impresión</span><span class="category-track" style="--bar-width:56.25%"><i></i><small>14.0%</small></span><span class="category-value"><b>180</b> kg</span></div>
+                <div class="category-row"><span class="category-name">Falla de Sello</span><span class="category-track" style="--bar-width:39.1%"><i></i><small>9.7%</small></span><span class="category-value"><b>125</b> kg</span></div>
+                <div class="category-row"><span class="category-name">Falla de Laminación</span><span class="category-track" style="--bar-width:34.4%"><i></i><small>8.6%</small></span><span class="category-value"><b>110</b> kg</span></div>
+                <div class="category-row"><span class="category-name">Falla de tratamiento</span><span class="category-track" style="--bar-width:29.7%"><i></i><small>7.4%</small></span><span class="category-value"><b>95</b> kg</span></div>
+                <div class="category-row"><span class="category-name">Bloqueo</span><span class="category-track" style="--bar-width:26.6%"><i></i><small>6.6%</small></span><span class="category-value"><b>85</b> kg</span></div>
+                <div class="category-row"><span class="category-name">Falla perforador</span><span class="category-track" style="--bar-width:18.75%"><i></i><small>4.7%</small></span><span class="category-value"><b>60</b> kg</span></div>
+                <div class="category-row"><span class="category-name">Otros</span><span class="category-track" style="--bar-width:9.1%"><i></i><small>2.3%</small></span><span class="category-value"><b>29</b> kg</span></div>
+              </div>
+            </article>
+
+            <article class="panel chart-panel">
+              <div class="chart-heading">
+                <h2>DEV / Origen</h2>
+                <button class="chart-expand" type="button" aria-label="Ampliar DEV / Origen" title="Ampliar gráfico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></button>
+              </div>
+              <div class="donut-content">
+                <div class="donut-chart origin-donut" role="img" aria-label="1,284 kilogramos PNC distribuidos por origen: Falla Control de calidad 360 kg (28 %), Proceso_Bloqueo 282 kg (22 %), Falla de especificaciones 231 kg (18 %), Proceso_Falla Impresión 154 kg (12 %), Falla de Laminación 103 kg (8 %), Falla de tratamiento 90 kg (7 %) y Otros 64 kg (5 %)">
+                  <div class="donut-center"><strong>1,284</strong><span>PNC</span></div>
+                  <span class="slice-label" style="left:76.2%;top:28.3%">28%</span>
+                  <span class="slice-label" style="left:71.7%;top:76.2%">22%</span>
+                  <span class="slice-label" style="left:31.8%;top:78.7%">18%</span>
+                  <span class="slice-label" style="left:14.1%;top:52.3%">12%</span>
+                  <span class="slice-label" style="left:16.2%;top:28.6%">8%</span>
+                  <span class="slice-label" style="left:29.1%;top:14.7%">7%</span>
+                  <span class="slice-label" style="left:43.3%;top:7.5%">5%</span>
+                </div>
+                <ul class="donut-legend">
+                  <li><i class="legend-blue"></i><span>Falla Control de calidad</span><b>360 kg</b></li>
+                  <li><i class="legend-indigo"></i><span>Proceso_Bloqueo</span><b>282 kg</b></li>
+                  <li><i class="legend-green"></i><span>Falla de especificaciones</span><b>231 kg</b></li>
+                  <li><i class="legend-orange"></i><span>Proceso_Falla Impresión</span><b>154 kg</b></li>
+                  <li><i class="legend-cyan"></i><span>Falla de Laminación</span><b>103 kg</b></li>
+                  <li><i class="legend-yellow"></i><span>Falla de tratamiento</span><b>90 kg</b></li>
+                  <li><i class="legend-gray"></i><span>Otros</span><b>64 kg</b></li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="panel chart-panel" id="recovery-chart">
+              <div class="chart-heading">
+                <h2>PNC Recuperado vs No Recuperado</h2>
+                <button class="chart-expand" type="button" aria-label="Ampliar PNC Recuperado vs No Recuperado" title="Ampliar gráfico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg></button>
+              </div>
+              <div class="recovery-content">
+                <div class="donut-chart recovery-donut" role="img" aria-label="91.9 por ciento recuperado, 727 kilogramos; 8.1 por ciento no recuperado, 64 kilogramos">
+                  <div class="donut-center"><strong>791</strong><span>Kg PNC</span></div>
+                  <span class="donut-label donut-label-recovered">91.9%</span>
+                  <span class="donut-label donut-label-unrecovered">8.1%</span>
+                </div>
+                <div class="chart-legend recovery-legend">
+                  <span><i class="legend-blue"></i>Recuperado 727 kg · 91.9%</span>
+                  <span><i class="legend-indigo"></i>No recuperado 64 kg · 8.1%</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog class="chart-dialog" id="chartDialog" aria-label="Gráfico ampliado">
+    <button class="chart-dialog-close" type="button" aria-label="Cerrar gráfico ampliado">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="chart-dialog-panel"></div>
+  </dialog>
+
+  <script>
+    const app = document.querySelector(".app");
+    const menuToggle = document.getElementById("menuToggle");
+    const mastersToggle = document.getElementById("mastersToggle");
+    const mastersMenu = document.getElementById("mastersMenu");
+
+    menuToggle.addEventListener("click", () => {
+      const expanded = menuToggle.getAttribute("aria-expanded") === "true";
+
+      app.classList.toggle("sidebar-collapsed", expanded);
+      menuToggle.setAttribute("aria-expanded", String(!expanded));
+      menuToggle.setAttribute("aria-label", expanded ? "Mostrar menú" : "Ocultar menú");
+    });
+
+    mastersToggle.addEventListener("click", () => {
+      const expanded = mastersToggle.getAttribute("aria-expanded") === "true";
+
+      mastersToggle.setAttribute("aria-expanded", String(!expanded));
+      mastersMenu.hidden = expanded;
+    });
+
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        document.querySelectorAll(".nav-link").forEach((item) => {
+          item.classList.remove("active");
+          item.removeAttribute("aria-current");
+        });
+
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      });
+    });
+
+    // Ampliar gráficos en ventana modal (maqueta)
+    const chartDialog = document.getElementById("chartDialog");
+    const chartDialogBody = chartDialog.querySelector(".chart-dialog-panel");
+    let expandedChart = null;
+
+    const openChart = (panel, trigger) => {
+      if (chartDialog.open) return;
+
+      expandedChart = { panel, trigger, parent: panel.parentNode, next: panel.nextSibling };
+      chartDialogBody.append(panel);
+      chartDialog.showModal();
+    };
+
+    document.querySelectorAll(".chart-expand").forEach((button) => {
+      button.addEventListener("click", () => openChart(button.closest(".chart-panel"), button));
+    });
+
+    document.querySelectorAll(".chart-panel").forEach((panel) => {
+      panel.addEventListener("click", (event) => {
+        if (event.target.closest(".chart-expand")) return;
+
+        openChart(panel, panel.querySelector(".chart-expand"));
+      });
+    });
+
+    chartDialog.querySelector(".chart-dialog-close").addEventListener("click", () => chartDialog.close());
+
+    chartDialog.addEventListener("click", (event) => {
+      if (event.target === chartDialog) chartDialog.close();
+    });
+
+    chartDialog.addEventListener("close", () => {
+      if (!expandedChart) return;
+
+      expandedChart.parent.insertBefore(expandedChart.panel, expandedChart.next);
+      expandedChart.trigger.focus({ preventScroll: true });
+      expandedChart = null;
+    });
+  </script>
+</body>
+</html>
